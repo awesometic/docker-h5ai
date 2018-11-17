@@ -2,14 +2,15 @@ FROM nginx:1.15-alpine
 LABEL maintainer="Awesometic <awesometic.lab@gmail.com>" \
       description="Lightweight h5ai 0.29 container with Nginx 1.15 & PHP 7 based on Alpine Linux."
 
-ENV TZ=Asia/Seoul
-
 RUN apk update
 RUN apk add --no-cache \
     bash bash-completion supervisor tzdata \
     php7 php7-fpm php7-session php7-json php7-xml php7-mbstring php7-exif \
     php7-intl php7-gd php7-imagick php7-gmagick php7-zip \
     ffmpeg imagemagick graphicsmagick zip
+
+# Environments
+ENV TZ 'Asia/Seoul'
 
 # Configure system timezone
 RUN cp /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
