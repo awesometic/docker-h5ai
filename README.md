@@ -16,6 +16,7 @@ So this is composed of,
 * Alpine Linux 3.8
 * Nginx 1.15.x
 * PHP 7.2.x
+
 'x' at the last of their version means that they could be upgraded by their maintainer.  
 
 And I use supervisor to manage these processes. Especially, PHP-FPM7.  
@@ -30,20 +31,21 @@ Pull the image from docker hub.
 ```bash
 docker pull awesometic/h5ai
 ```
-Run that image temporary. '--rm' option removes container when you terminate the interaction session.
+Run that image temporary. '--rm' option removes container when you terminate the interactive session.
 ```bash
-docker run --name=h5ai --it --rm -p 80:80 -v /where/you/wanna/share:/h5ai/wherever awesometic/h5ai
+docker run -it --rm -p 80:80 -v /where/you/wanna/share:/h5ai/wherever awesometic/h5ai
 ```
-If you want to runs this image permanently, try out the command below.
+If you want to run this image as a daemon, try to the command below.
 ```bash
 docker run --name=h5ai -d -p 80:80 -v /where/you/wanna/share:/h5ai/wherever awesometic/h5ai
 ```
-**IMPORTANT**: Do not place to the whole '/h5ai' directory of the image. If '/h5ai/_h5ai' directory is going to be overwritten then it loses its functioning.
+**IMPORTANT**: Do not replace the whole '/h5ai' of the container for the data directory. If '/h5ai/_h5ai' directory is going to be overwritten then it loses its functioning.
 
-If the container runs, just let your browser browse the below.
+If the container runs, just let your browser browse like:
 ```
 http://localhost/
 ```
+![Sample files from https://www.sample-videos.com/](docs/docker-h5ai-demo.png)
 Then you can see the directories you shared for the image.  
 
 ## License
