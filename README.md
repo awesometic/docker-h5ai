@@ -48,5 +48,9 @@ http://localhost/
 ![Sample files from https://www.sample-videos.com/](docs/docker-h5ai-demo.png)
 Then you can see the directories you shared for the image.  
 
+## TODOs
+- [ ] Easy access to options.json
+- [ ] Access permission using htaccess
+
 ## License
 This project comes with MIT license. Please see the [license file](LICENSE).  
