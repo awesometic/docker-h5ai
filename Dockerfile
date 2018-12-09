@@ -10,28 +10,25 @@ RUN apk add --no-cache \
     ffmpeg imagemagick graphicsmagick zip
 
 # Environments
-ENV TZ 'Asia/Seoul'
+ENV TZ='Asia/Seoul'
 
-# Configure system timezone
-RUN cp /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
-    apk del tzdata
+# Copy configuration files
+COPY config/h5ai.conf /etc/nginx/conf.d/h5ai.conf
+COPY config/php_set_timezone.ini /etc/php7/conf.d/zzz_custom.ini
+COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Copy h5ai
+COPY config/_h5ai /usr/share/h5ai/_h5ai
 
 # Configure Nginx server
 RUN sed --in-place=.bak 's/worker_processes  1/worker_processes  auto/g' /etc/nginx/nginx.conf
-COPY config/h5ai.conf /etc/nginx/conf.d/h5ai.conf
 RUN mv /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.bak
 
-# Configure PHP
-COPY config/php_set_timezone.ini /etc/php7/conf.d/zzz_custom.ini
-RUN echo $TZ"\"" >> /etc/php7/conf.d/zzz_custom.ini
-
-# Configure Supervisor
-COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
-# Copy prepared h5ai data and configure it for caching
-COPY config/_h5ai /h5ai/_h5ai
-RUN chmod -R 777 /h5ai/_h5ai/public/cache
-RUN chmod -R 777 /h5ai/_h5ai/private/cache
+# Add entrypoint shell script file
+ADD config/init.sh /
+# Execute init.sh to finish preparation
+RUN chmod a+x /init.sh
 
 EXPOSE 80
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+VOLUME [ "/config" ]
+ENTRYPOINT [ "/init.sh" ]
