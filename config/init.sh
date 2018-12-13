@@ -6,7 +6,9 @@ msg() {
 
 # Display environment variables
 echo -e "Variables:
-\t- TZ=${TZ}"
+\\t- TZ=${TZ}
+\\t- HTPASSWD=${HTPASSWD}
+\\t- HTPASSWD_USER=${HTPASSWD_USER}"
 
 msg "Configure timezone for PHP..."
 echo "$TZ\"" >> /etc/php7/conf.d/zzz_custom.ini
@@ -19,6 +21,7 @@ orig_nginx="/etc/nginx/conf.d/h5ai.conf"
 orig_h5ai="/usr/share/h5ai/_h5ai"
 conf_nginx="/config/nginx/h5ai.conf"
 conf_h5ai="/config/h5ai/_h5ai"
+conf_htpwd="/config/nginx/.htpasswd"
 
 msg "Check configuration files for Nginx..."
 if [ ! -f "$conf_nginx" ]; then
@@ -48,6 +51,29 @@ chown -R nginx:nogroup $conf_h5ai
 msg "Set permission for caching..."
 chmod -R 777 $conf_h5ai/public/cache
 chmod -R 777 $conf_h5ai/private/cache
+
+# If an user wants to set htpasswd
+if [ "$HTPASSWD" = "true" ]; then
+    if [ ! -f "$conf_htpwd" ]; then
+        msg "Create an authenticate account for h5ai website..."
+        msg "Please enter a password for user $HTPASSWD_USER"
+        
+        # Create a new htpasswd file
+        htpasswd -c "$conf_htpwd" "$HTPASSWD_USER"
+    else
+        msg "User setup files found: $conf_htpwd"
+    fi
+
+    # Patch Nginx server instance
+    if [ "$( grep -rni "auth" /config/nginx/h5ai.conf | wc -l )" -eq 0 ]; then
+        patch -p1 /config/nginx/h5ai.conf -i /h5ai.conf.htpasswd.patch
+    fi
+else
+    if [ "$( grep -rni "auth" /config/nginx/h5ai.conf | wc -l )" -gt 0 ]; then
+        msg "HTPASSWD not configured but Nginx server sets. Reverse the patch..."
+        patch -R -p1 /config/nginx/h5ai.conf -i /h5ai.conf.htpasswd.patch
+    fi
+fi
 
 msg "Start supervisord..."
 supervisord -c /etc/supervisor/conf.d/supervisord.conf
