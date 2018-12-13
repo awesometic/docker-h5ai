@@ -33,13 +33,12 @@ docker pull awesometic/h5ai
 ```
 Run that image temporary. '--rm' option removes container when you terminate the interactive session.
 ```bash
-docker run -it --rm -p 80:80 -v /where/you/wanna/share:/h5ai/wherever awesometic/h5ai
+docker run -it --rm -p 80:80 -v /where/you/wanna/share:/h5ai awesometic/h5ai
 ```
 If you want to run this image as a daemon, try to the command below.
 ```bash
-docker run --name=h5ai -d -p 80:80 -v /where/you/wanna/share:/h5ai/wherever awesometic/h5ai
+docker run --name=h5ai -d -p 80:80 -v /where/you/wanna/share:/h5ai awesometic/h5ai
 ```
-**IMPORTANT**: Do not replace the whole '/h5ai' of the container for the data directory. If '/h5ai/_h5ai' directory is going to be overwritten then it loses its functioning.
 
 If the container runs, just let your browser browse like:
 ```
@@ -49,7 +48,7 @@ http://localhost/
 Then you can see the directories you shared for the image.  
 
 ## TODOs
-- [ ] Easy access to options.json
+- [x] Easy access to options.json
 - [ ] Access permission using htaccess
 
 ## License
