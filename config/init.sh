@@ -10,8 +10,10 @@ echo -e "Variables:
 \\t- HTPASSWD=${HTPASSWD}
 \\t- HTPASSWD_USER=${HTPASSWD_USER}"
 
-msg "Configure timezone for PHP..."
-echo "$TZ\"" >> /etc/php7/conf.d/zzz_custom.ini
+if [ "$( grep -rni "$TZ" /etc/php7/conf.d/zzz_custom.ini | wc -l )" -eq 0 ]; then
+    msg "Configure timezone for PHP..."
+    echo "$TZ\"" >> /etc/php7/conf.d/zzz_custom.ini
+fi
 
 msg "Make config directories..."
 mkdir -p /config/{nginx,h5ai}
