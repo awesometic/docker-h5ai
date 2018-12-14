@@ -52,8 +52,7 @@ Run that image temporary. '--rm' option removes container when you terminate the
 You can just dry run it out as the following commands.
 
 ```bash
-docker run -it \
---rm \
+docker run -it --rm \
 -p 80:80 \
 -v /wherever/you/share:/h5ai \
 -v /wherever/you/config:/config \
@@ -64,8 +63,7 @@ awesometic/h5ai
 If you want to run this image as a daemon, try to the followings.
 
 ```bash
-docker run -d \
---name=h5ai \
+docker run -d --name=h5ai \
 -p 80:80 \
 -v /wherever/you/share:/h5ai \
 -v /wherever/you/config:/config \
@@ -76,8 +74,7 @@ awesometic/h5ai
 If you want to login to visit h5ai websites so that prevents from accessing of anonymous users, just add an environments like the below.
 
 ```bash
-docker run -it \
---name=h5ai \
+docker run -it --name=h5ai \
 -p 80:80 \
 -v /wherever/you/share:/h5ai \
 -v /wherever/you/config:/config \
