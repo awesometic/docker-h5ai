@@ -33,5 +33,5 @@ ADD config/h5ai.conf.htpasswd.patch /
 RUN chmod a+x /init.sh
 
 EXPOSE 80
-VOLUME [ "/config" ]
+VOLUME [ "/config", "/h5ai" ]
 ENTRYPOINT [ "/init.sh" ]
