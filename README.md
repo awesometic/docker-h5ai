@@ -99,7 +99,7 @@ Then you can see the directories you shared.
 
 * [x] Easy access to options.json
 * [x] Access permission using htpasswd
-* [ ] Support HTTPS
+* [ ] Support HTTPS - This image doesn't support SSL even if the generated cert files are preprared but you can apply SSL if you have external Let's Encrypt program and/or a reverse proxy server.
 
 ## License
 
