@@ -1,6 +1,30 @@
 # Changelog
 
 
+## v0.29.2 - *2019-03-22*
+
+* update `babel-loader` to 7.1.1
+* update `eslint` to 5.15.3
+* update `ghu` to 0.13.0
+* update `jsdom` to 14.0.0
+* update `kjua` to 0.2.0
+* update `lolight` to 1.0.0
+* update `scar` to 1.2.0
+
+
+## v0.29.1 - *2019-01-20*
+
+* replace `babel-preset-es2015` with `babel-preset-env`
+* update `eslint` to 5.14.1
+* update `ghu` to 0.12.0
+* update `jsdom` to 9.2.0
+* update `kjua` to 0.1.2
+* update `lolight` to 0.6.0
+* update `marked` to 0.6.1
+* update `normalize.css` to 8.0.1
+* update `scar` to 1.0.0
+
+
 ## v0.29.0 - *2016-08-12*
 
 * back to cleaner visual experience

@@ -1,4 +1,4 @@
-/* h5ai v0.29.0 - https://larsjung.de/h5ai/ */
+/* h5ai v0.29.2 - https://larsjung.de/h5ai/ */
 {
     "ar":               ["*.tar.bz2", "*.crx"],
     "ar-apk":           ["*.apk"],

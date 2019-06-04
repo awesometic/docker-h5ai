@@ -1,4 +1,4 @@
-/* h5ai v0.29.0 - https://larsjung.de/h5ai/ */
+/* h5ai v0.29.2 - https://larsjung.de/h5ai/ */
 {
     /*
     Password hash.
@@ -123,7 +123,7 @@
     - alwaysVisible: boolean, always show download button (defaults to download the current folder)
     */
     "download": {
-        "enabled": false,
+        "enabled": true,
         "type": "php-tar",
         "packageName": null,
         "alwaysVisible": false
@@ -158,7 +158,7 @@
     - type: string, "php" (sloooow) or "shell-du" (sloow)
     */
     "foldersize": {
-        "enabled": false,
+        "enabled": true,
         "type": "php"
     },
 
@@ -181,7 +181,7 @@
     - qrColor: string, QR-Code fill color
     */
     "info": {
-        "enabled": false,
+        "enabled": true,
         "show": false,
         "qrcode": true,
         "qrFill": "#999",
@@ -319,7 +319,7 @@
     - checkboxes: boolean, show a checkbox on mouse over item
     */
     "select": {
-        "enabled": false,
+        "enabled": true,
         "clickndrag": true,
         "checkboxes": true
     },
