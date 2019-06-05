@@ -18,13 +18,13 @@ And I do choose nginx-alpine as its base image for the sake of some tweaks of Ng
 
 So this is composed of,
 
-* Alpine Linux 3.8
-* Nginx 1.15.x
+* Alpine Linux 3.9.x
+* Nginx 1.16.x
 * PHP 7.2.x
 
 with,
 
-* h5ai 0.29.0
+* h5ai 0.29.2
 
 'x' at the last of their version means that they could be upgraded by their maintainer.  
 
