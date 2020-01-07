@@ -1,5 +1,13 @@
 # docker-h5ai
 
+![](https://img.shields.io/docker/automated/awesometic/h5ai)
+![](https://img.shields.io/docker/build/awesometic/h5ai)
+![](https://img.shields.io/microbadger/image-size/awesometic/h5ai)
+![](https://img.shields.io/microbadger/layers/awesometic/h5ai)
+![](https://img.shields.io/docker/pulls/awesometic/h5ai)
+![](https://img.shields.io/docker/stars/awesometic/h5ai)
+
+
 ## What is h5ai
 
 I'd like to quote the [official website](https://larsjung.de/h5ai/).  
