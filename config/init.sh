@@ -8,7 +8,8 @@ msg() {
 echo -e "Variables:
 \\t- TZ=${TZ}
 \\t- HTPASSWD=${HTPASSWD}
-\\t- HTPASSWD_USER=${HTPASSWD_USER}"
+\\t- HTPASSWD_USER=${HTPASSWD_USER}
+\\t- HTPASSWD_PW=${HTPASSWD_PW}"
 
 if [ "$( grep -rni "$TZ" /etc/php7/conf.d/zzz_custom.ini | wc -l )" -eq 0 ]; then
     msg "Configure timezone for PHP..."
@@ -74,10 +75,16 @@ chmod -R 777 $conf_h5ai/private/cache
 if [ "$HTPASSWD" = "true" ]; then
     if [ ! -f "$conf_htpwd" ]; then
         msg "Create an authenticate account for h5ai website..."
-        msg "Please enter a password for user $HTPASSWD_USER"
-        
-        # Create a new htpasswd file
-        htpasswd -c "$conf_htpwd" "$HTPASSWD_USER"
+
+        if [ -z "$HTPASSWD_PW" ]; then
+            msg "Please enter a password for user $HTPASSWD_USER"
+            
+            # Create a new htpasswd file with user's entered password
+            htpasswd -c "$conf_htpwd" "$HTPASSWD_USER"
+        else
+            # Create a new htpasswd file with environment variables
+            htpasswd -b -c "$conf_htpwd" "$HTPASSWD_USER" "$HTPASSWD_PW"
+        fi
     else
         msg "User setup files found: $conf_htpwd"
     fi

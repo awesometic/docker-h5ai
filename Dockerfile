@@ -13,6 +13,7 @@ RUN apk add --no-cache \
 ENV TZ='Asia/Seoul'
 ENV HTPASSWD='false'
 ENV HTPASSWD_USER='guest'
+ENV HTPASSWD_PW=''
 
 # Copy configuration files
 COPY config/h5ai.conf /etc/nginx/conf.d/h5ai.conf
