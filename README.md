@@ -28,7 +28,7 @@ So this is composed of,
 
 * Alpine Linux 3.10.x
 * Nginx 1.17.x
-* PHP 7.3.x
+* PHP 7.4.x
 
 with,
 
@@ -93,6 +93,22 @@ awesometic/h5ai
 ```
 
 Be aware of that **HTPASSWD** must be true for authenticating and that you have to run in interaction mode by adding **-it** to enter password for the new created user.
+
+Or, you can set the password for Htpasswd by passing a environment variable.
+
+```bash
+docker run -d --name=h5ai \
+-p 80:80 \
+-v /wherever/you/share:/h5ai \
+-v /wherever/you/config:/config \
+-e TZ=Asia/Seoul \
+-e HTPASSWD=true \
+-e HTPASSWD_USER=awesometic \
+-e HTPASSWD_PW=awesometic \
+awesometic/h5ai
+```
+
+In this way, you don't have to set **-it** mode because all the setting process for Htpasswd will be processed automatically. So you should put **-d** option to run in daemon mode.
 
 Then when the container runs, just let your browser browses:
 
