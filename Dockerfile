@@ -1,5 +1,5 @@
 FROM nginx:1.17-alpine
-LABEL maintainer="Yang Deokgyu <secugyu@gmail.com>" \
+LABEL maintainer="Deokgyu Yang <secugyu@gmail.com>" \
       description="Lightweight h5ai 0.29.2 container with Nginx 1.17 & PHP 7.3 based on Alpine Linux."
 
 RUN apk update
