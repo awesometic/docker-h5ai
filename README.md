@@ -26,9 +26,9 @@ And I do choose nginx-alpine as its base image for the sake of some tweaks of Ng
 
 So this is composed of,
 
-* Alpine Linux 3.10.x
-* Nginx 1.17.x
-* PHP 7.4.x
+* Alpine Linux 3.11
+* Nginx 1.19.0
+* PHP 7.4.5
 
 with,
 
