@@ -2,6 +2,12 @@ FROM nginx:1.19-alpine
 LABEL maintainer="Deokgyu Yang <secugyu@gmail.com>" \
       description="Lightweight h5ai 0.29.2 container with Nginx 1.19 & PHP 7.4 based on Alpine Linux."
 
+# Add PHP 7.4 repository
+ADD https://dl.bintray.com/php-alpine/key/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.pub
+RUN apk --update add ca-certificates && \
+    echo "https://dl.bintray.com/php-alpine/v3.11/php-7.4" >> /etc/apk/repositories
+
+# Install packages
 RUN apk update
 RUN apk add --no-cache \
     bash bash-completion supervisor tzdata \
