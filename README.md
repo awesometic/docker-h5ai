@@ -7,22 +7,21 @@
 ![](https://img.shields.io/docker/pulls/awesometic/h5ai)
 ![](https://img.shields.io/docker/stars/awesometic/h5ai)
 
-
 ## What is h5ai
 
-I'd like to quote the [official website](https://larsjung.de/h5ai/).  
+I'd like to quote the [official website](https://larsjung.de/h5ai/).
 > h5ai is a modern file indexer for HTTP web servers with focus on your files. Directories are displayed in a appealing way and browsing them is enhanced by different views, a breadcrumb and a tree overview. Initially h5ai was an acronym for HTML5 Apache Index but now it supports other web servers too.
 
 ## What this project provided for
 
-I hope this project would be useful for those who uses docker for building their server.  
+I hope this project would be useful for those who uses Docker for building their server.
 
 ## Features
 
 ### Core packages
 
-I chose Alpine Linux for make it a **light-weight** service.  
-And I do choose nginx-alpine as its base image for the sake of some tweaks of Nginx version.  
+I choose Alpine Linux as a base image to make it a **light-weight** service.
+And I do choose Nginx-Alpine to get the benefits from some tweaks of Nginx version.
 
 So this is composed of,
 
@@ -34,73 +33,84 @@ with,
 
 * h5ai 0.30.0
 
-'x' at the last of their version means that they could be upgraded by their maintainer.  
-
-And I use supervisor to manage these processes. Especially, PHP-FPM7.  
-This is the first time for me for using supervisor so I couldn't sure it is needed, but it looks just works. If you have any ideas, please let me know :)  
+And to gather all of these into one together I use supervisor that manages all of these processes.
 
 ### All functions work
 
 ![all functions work](docs/docker-h5ai-functions.png)
-h5ai supports extensional functions such as showing thumnails of audio and video, caching for better speed, etc. This image functions all of them.
+h5ai supports extensional functions such as showing thumnails of audio and video, caching for better speed, etc. This image activates all of those functions.
 
 ## How can I use this
 
-First of all, it assumes that you have installed Docker on your system.  
-Pull the image from docker hub.
+First of all, it assumes that you have installed Docker on your system.
+
+### Pulling the Docker image
+
+Pull the image from docker hub with the following command.
 
 ```bash
 docker pull awesometic/h5ai
 ```
 
-Run that image temporary. '--rm' option removes container when you terminate the interactive session.
-
 ### Basic usage
 
-You can just dry run it out as the following commands.
+This is how it can be a service.
+
+Since this is the examples, these use the '--rm' option to remove the container when you terminate the interactive session.
+
+You can run it using the following command.
 
 ```bash
 docker run -it --rm \
 -p 80:80 \
--v /wherever/you/share:/h5ai \
--v /wherever/you/config:/config \
+-v /shared/dir:/h5ai \
+-v /config/dir:/config \
 -e TZ=Asia/Seoul \
 awesometic/h5ai
 ```
 
-If you want to run this image as a daemon, try to the followings.
+Basically, two directories should be mapped to the host PC.
+
+* `/h5ai`: This will be where the shared files located.
+* `/config`: This will be where stores configurations of h5ai and Nginx settings.
+
+If you want to run this image as a daemon, use `-d` option. See the following command.
 
 ```bash
 docker run -d --name=h5ai \
 -p 80:80 \
--v /wherever/you/share:/h5ai \
--v /wherever/you/config:/config \
+-v /shared/dir:/h5ai \
+-v /config/dir:/config \
 -e TZ=Asia/Seoul \
 awesometic/h5ai
 ```
 
-If you want to login to visit h5ai websites so that prevents from accessing of anonymous users, just add an environments like the below.
+If you want to login when visiting the hosted h5ai website so that implement protection from accessing anonymous users, add `HTPASSWD` environments like the below.
 
 ```bash
 docker run -it --name=h5ai \
 -p 80:80 \
--v /wherever/you/share:/h5ai \
--v /wherever/you/config:/config \
+-v /shared/dir:/h5ai \
+-v /config/dir:/config \
 -e TZ=Asia/Seoul \
 -e HTPASSWD=true \
 -e HTPASSWD_USER=awesometic \
 awesometic/h5ai
 ```
 
-Be aware of that **HTPASSWD** must be true for authenticating and that you have to run in interaction mode by adding **-it** to enter password for the new created user.
+Then only the user set by `HTPASSWD_USER`, **awesometic** can access this h5ai website with these options.
 
-Or, you can set the password for Htpasswd by passing a environment variable.
+Be aware of that the `HTPASSWD` environment variable must be **true** for authentication.
+
+And aware of this too that you have to run in interaction mode by adding **-it** to set a password for the newly created user for the first time.
+
+Or, you can set the password for Htpasswd by passing an environment variable. In this case, you shouldn't have to use **-it** option because it is not needed at all.
 
 ```bash
 docker run -d --name=h5ai \
 -p 80:80 \
--v /wherever/you/share:/h5ai \
--v /wherever/you/config:/config \
+-v /shared/dir:/h5ai \
+-v /config/dir:/config \
 -e TZ=Asia/Seoul \
 -e HTPASSWD=true \
 -e HTPASSWD_USER=awesometic \
@@ -108,23 +118,42 @@ docker run -d --name=h5ai \
 awesometic/h5ai
 ```
 
-In this way, you don't have to set **-it** mode because all the setting process for Htpasswd will be processed automatically. So you should put **-d** option to run in daemon mode.
-
-Then when the container runs, just let your browser browses:
+To do the test drive, when the container runs then just let your browser browses:
 
 ``` http
 http://localhost/
 ```
 
 ![Sample files from https://www.sample-videos.com/](docs/docker-h5ai-demo.png)
-Then you can see the directories you shared.
+After all, you can see the directories you shared.
+
+## Caution when update
+
+**If the new h5ai version releases**, I overwrite all the updated files to the corresponded directories on the project folder. In this sequence, some customized files by you will be replaced into the new one.
+
+So it is **highly recommended to make back up files of your edits** before update the Docker image.
+
+To prevent an unexpected accident, I put minimal protection into my `init.sh` script. This checks if the current `private/conf/options.json` file is outdated from the current about to be run. If the current `options.json` is older than the newly loaded one, the script makes its backup file under the `/config` directory. See the followings.
+
+```bash
+awesometic@awesometic-nas:docker/h5ai $ ll
+total 32K
+-rwxr-xr-x 1 root root  12K Jul 10  2019 20190710_165345_options.json.bak
+-rwxr-xr-x 1 root root  12K Feb  3 14:46 20210203_144624_options.json.bak
+drwxr-xr-x 3 root root 4.0K Feb  3 14:46 h5ai
+drwxr-xr-x 2 root root 4.0K Dec 14  2018 nginx
+```
+
+But since I don't know how much the users edit their h5ai files like layout or style, it won't make backups for all of the h5ai related files. So it depends on your caution.
+
+If you have any good idea, please let me know. 😀
 
 ## TODOs
 
 * [x] Easy access to options.json
 * [x] Access permission using htpasswd
-* [ ] Support HTTPS - This image doesn't support SSL even if the generated cert files are preprared but you can apply SSL if you have external Let's Encrypt program and/or a reverse proxy server.
+* [ ] Support HTTPS - This image doesn't support SSL even if the generated cert files are preprared. But there's another way to apply SSL if you have external Let's Encrypt program and/or a reverse proxy server.
 
 ## License
 
-This project comes with MIT license. Please see the [license file](LICENSE).  
+This project comes with MIT license. Please see the [license file](LICENSE).
