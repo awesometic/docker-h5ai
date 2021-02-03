@@ -1,7 +1,7 @@
 <?php
 
-define('H5AI_VERSION', '0.29.2');
-define('MIN_PHP_VERSION', '5.5.0');
+define('H5AI_VERSION', '0.30.0');
+define('MIN_PHP_VERSION', '7.0.0');
 
 if (!function_exists('version_compare') || version_compare(PHP_VERSION, MIN_PHP_VERSION, '<')) {
     header('Content-type: text/plain;charset=utf-8');

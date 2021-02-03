@@ -1,6 +1,27 @@
 # Changelog
 
 
+* now require PHP 7.0.0+
+* fix archive-single-item problem
+* add header/footer search stop condition
+* update languages (`id`, `it`, `pt-br`, `pt-pt`)
+* add EXIF-based image rotation
+* add `where` to command detection command list
+* fix #758
+* fix #760
+* add `@babel/core` 7.12.10
+* add `@babel/preset-env` 7.12.11
+* remove `babel-loader`
+* update `eslint` to 7.18.0
+* update `ghu` to 0.26.0
+* update `jsdom` to 16.4.0
+* update `kjua` to 0.9.0
+* update `lolight` to 1.4.0
+* update `marked` to 1.2.7
+* update `null-loader` to 4.0.1
+* update `scar` to 2.3.0
+
+
 ## v0.29.2 - *2019-03-22*
 
 * update `babel-loader` to 7.1.1

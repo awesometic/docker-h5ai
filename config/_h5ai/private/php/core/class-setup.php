@@ -99,7 +99,6 @@ class Setup {
         $this->set('H5AI_PATH', Util::normalize_path(dirname(dirname(dirname(dirname(__FILE__)))), false));
 
         $this->set('ROOT_HREF', Util::normalize_path(dirname($this->get('H5AI_HREF')), true));
-        // $this->set('ROOT_PATH', Util::normalize_path(dirname($this->get('H5AI_PATH')), false));
         $this->set('ROOT_PATH', '/h5ai');
 
         $this->set('PUBLIC_HREF', Util::normalize_path($this->get('H5AI_HREF') . '/public/', true));
@@ -123,12 +122,15 @@ class Setup {
         if (sizeof($cmds) === 0 || $this->refresh) {
             $cmds['command'] = Util::exec_0('command -v command');
             $cmds['which'] = Util::exec_0('which which') || Util::exec_0('which which.exe');
+            $cmds['where'] = Util::exec_0('where where.exe');
 
             $cmd = false;
             if ($cmds['command']) {
                 $cmd = 'command -v';
             } elseif ($cmds['which']) {
                 $cmd = 'which';
+            } elseif ($cmds['where']) {
+                $cmd = 'where';
             }
 
             foreach (['avconv', 'convert', 'du', 'ffmpeg', 'gm', 'tar', 'zip'] as $c) {

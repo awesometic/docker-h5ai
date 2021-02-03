@@ -135,12 +135,17 @@ class Archive {
     }
 
     private function add_hrefs($hrefs) {
+        if (!is_array($hrefs)) {
+            $hrefs = array($hrefs);
+        }
+
         foreach ($hrefs as $href) {
             if (trim($href) === '') {
                 continue;
             }
 
-            $d = Util::normalize_path(dirname($href), true);
+            $href = Util::normalize_path($href, false);
+            $d = dirname($href);
             $n = basename($href);
 
             if ($this->context->is_managed_href($d) && !$this->context->is_hidden($n)) {
