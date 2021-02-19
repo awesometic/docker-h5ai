@@ -1,11 +1,11 @@
 # docker-h5ai
 
-![](https://img.shields.io/docker/automated/awesometic/h5ai)
-![](https://img.shields.io/docker/build/awesometic/h5ai)
-![](https://img.shields.io/microbadger/image-size/awesometic/h5ai)
-![](https://img.shields.io/microbadger/layers/awesometic/h5ai)
-![](https://img.shields.io/docker/pulls/awesometic/h5ai)
-![](https://img.shields.io/docker/stars/awesometic/h5ai)
+![](https://img.shields.io/badge/multiarch-amd64(x86__64)%2C%20arm64%2C%20armv7%2C%20armv6%2C%20386-lightgrey?style=flat-square)
+![](https://img.shields.io/github/workflow/status/awesometic/docker-h5ai/buildx?style=flat-square)
+
+![](https://img.shields.io/docker/image-size/awesometic/h5ai/latest?style=flat-square)
+![](https://img.shields.io/docker/pulls/awesometic/h5ai?style=flat-square)
+![](https://img.shields.io/docker/stars/awesometic/h5ai?style=flat-square)
 
 ## What is h5ai
 
@@ -25,9 +25,9 @@ And I do choose Nginx-Alpine to get the benefits from some tweaks of Nginx versi
 
 So this is composed of,
 
-* Alpine Linux 3.12
-* Nginx 1.19.6
-* PHP 7.3.26
+* Alpine Linux 3.13
+* Nginx 1.19.7
+* PHP 7.4.15
 
 with,
 
@@ -39,6 +39,12 @@ And to gather all of these into one together I use supervisor that manages all o
 
 ![all functions work](docs/docker-h5ai-functions.png)
 h5ai supports extensional functions such as showing thumnails of audio and video, caching for better speed, etc. This image activates all of those functions.
+
+### Supports multiple architectures
+
+It builds from Github Actions for supporting multiple architectures such as AMD64(x86_64) and ARM64, ARMv7, ARMv6, 386.
+
+So that you can use this on most computers supporting Docker.
 
 ## How can I use this
 
