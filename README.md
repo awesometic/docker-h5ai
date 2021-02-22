@@ -60,9 +60,7 @@ docker pull awesometic/h5ai
 
 ### Basic usage
 
-This is how it can be a service.
-
-Since this is the examples, these use the '--rm' option to remove the container when you terminate the interactive session.
+This is how it can be a service, in the other word, a container.
 
 You can run it using the following command.
 
@@ -74,6 +72,8 @@ docker run -it --rm \
 -e TZ=Asia/Seoul \
 awesometic/h5ai
 ```
+
+The `--rm` option in the command is added to remove the executed container since this is an example usage.
 
 Basically, two directories should be mapped to the host PC.
 
@@ -87,10 +87,23 @@ docker run -d --name=h5ai \
 -p 80:80 \
 -v /shared/dir:/h5ai \
 -v /config/dir:/config \
---restart unless-stopped \
 -e TZ=Asia/Seoul \
 awesometic/h5ai
 ```
+
+If you want to run this image permanently, so to speak, to keep it runs after rebooting the server, you can use `--restart unless-stopped` option. See the following command.
+
+```bash
+docker run -d --name=h5ai \
+-p 80:80 \
+-v /shared/dir:/h5ai \
+-v /config/dir:/config \
+-e TZ=Asia/Seoul \
+--restart unless-stopped \
+awesometic/h5ai
+```
+
+### Keep in safe from anonymous
 
 If you want to login when visiting the hosted h5ai website so that implement protection from accessing anonymous users, add `HTPASSWD` environments like the below.
 
@@ -99,7 +112,6 @@ docker run -it --name=h5ai \
 -p 80:80 \
 -v /shared/dir:/h5ai \
 -v /config/dir:/config \
---restart unless-stopped \
 -e TZ=Asia/Seoul \
 -e HTPASSWD=true \
 -e HTPASSWD_USER=awesometic \
@@ -114,18 +126,24 @@ And aware of this too that you have to run in interaction mode by adding **-it**
 
 Or, you can set the password for Htpasswd by passing an environment variable. In this case, you shouldn't have to use **-it** option because it is not needed at all.
 
+### Use it as a real-time service
+
+Consequently, if you want to run this image as a real-time service, check the following command.
+
 ```bash
 docker run -d --name=h5ai \
 -p 80:80 \
 -v /shared/dir:/h5ai \
 -v /config/dir:/config \
---restart unless-stopped \
 -e TZ=Asia/Seoul \
 -e HTPASSWD=true \
 -e HTPASSWD_USER=awesometic \
 -e HTPASSWD_PW=awesometic \
+--restart unless-stopped \
 awesometic/h5ai
 ```
+
+### Visit your website
 
 To do the test drive, when the container runs then just let your browser browses:
 
