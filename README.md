@@ -87,6 +87,7 @@ docker run -d --name=h5ai \
 -p 80:80 \
 -v /shared/dir:/h5ai \
 -v /config/dir:/config \
+--restart unless-stopped \
 -e TZ=Asia/Seoul \
 awesometic/h5ai
 ```
@@ -98,6 +99,7 @@ docker run -it --name=h5ai \
 -p 80:80 \
 -v /shared/dir:/h5ai \
 -v /config/dir:/config \
+--restart unless-stopped \
 -e TZ=Asia/Seoul \
 -e HTPASSWD=true \
 -e HTPASSWD_USER=awesometic \
@@ -117,6 +119,7 @@ docker run -d --name=h5ai \
 -p 80:80 \
 -v /shared/dir:/h5ai \
 -v /config/dir:/config \
+--restart unless-stopped \
 -e TZ=Asia/Seoul \
 -e HTPASSWD=true \
 -e HTPASSWD_USER=awesometic \
