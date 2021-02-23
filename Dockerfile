@@ -5,8 +5,8 @@ LABEL maintainer="Deokgyu Yang <secugyu@gmail.com>" \
 RUN apk update
 RUN apk add --no-cache \
     bash bash-completion supervisor tzdata \
-    php7 php7-fpm php7-session php7-json php7-xml php7-mbstring php7-exif \
-    php7-intl php7-gd php7-imagick php7-zip \
+    php8 php8-fpm php8-session php8-json php8-xml php8-mbstring php8-exif \
+    php8-intl php8-gd php8-pecl-imagick php8-zip \
     ffmpeg imagemagick zip apache2-utils patch
 
 # Environments
@@ -17,7 +17,7 @@ ENV HTPASSWD_PW=''
 
 # Copy configuration files
 COPY config/h5ai.conf /etc/nginx/conf.d/h5ai.conf
-COPY config/php_set_timezone.ini /etc/php7/conf.d/zzz_custom.ini
+COPY config/php_set_timezone.ini /etc/php8/conf.d/00_timezone.ini
 COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Copy h5ai

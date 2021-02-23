@@ -11,9 +11,9 @@ echo -e "Variables:
 \\t- HTPASSWD_USER=${HTPASSWD_USER}
 \\t- HTPASSWD_PW=${HTPASSWD_PW}"
 
-if [ "$( grep -rni "$TZ" /etc/php7/conf.d/zzz_custom.ini | wc -l )" -eq 0 ]; then
+if [ "$( grep -rni "$TZ" /etc/php8/conf.d/00_timezone.ini | wc -l )" -eq 0 ]; then
     msg "Configure timezone for PHP..."
-    echo "$TZ\"" >> /etc/php7/conf.d/zzz_custom.ini
+    echo "$TZ\"" >> /etc/php8/conf.d/00_timezone.ini
 fi
 
 msg "Make config directories..."
@@ -78,7 +78,7 @@ if [ "$HTPASSWD" = "true" ]; then
 
         if [ -z "$HTPASSWD_PW" ]; then
             msg "Please enter a password for user $HTPASSWD_USER"
-            
+
             # Create a new htpasswd file with user's entered password
             htpasswd -c "$conf_htpwd" "$HTPASSWD_USER"
         else
