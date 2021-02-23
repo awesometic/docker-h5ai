@@ -6,7 +6,7 @@ RUN apk update
 RUN apk add --no-cache \
     bash bash-completion supervisor tzdata \
     php8 php8-fpm php8-session php8-json php8-xml php8-mbstring php8-exif \
-    php8-intl php8-gd php8-pecl-imagick php8-zip \
+    php8-intl php8-gd php8-pecl-imagick php8-zip php8-opcache \
     ffmpeg imagemagick zip apache2-utils patch
 
 # Environments
@@ -18,6 +18,7 @@ ENV HTPASSWD_PW=''
 # Copy configuration files
 COPY config/h5ai.conf /etc/nginx/conf.d/h5ai.conf
 COPY config/php_set_timezone.ini /etc/php8/conf.d/00_timezone.ini
+COPY config/php_set_jit.ini /etc/php8/conf.d/00_jit.ini
 COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Copy h5ai
