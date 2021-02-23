@@ -27,7 +27,7 @@ So this is composed of,
 
 * Alpine Linux 3.13
 * Nginx 1.19.7
-* PHP 7.4.15
+* PHP 8.0.2
 
 with,
 
@@ -39,6 +39,11 @@ And to gather all of these into one together I use supervisor that manages all o
 
 ![all functions work](docs/docker-h5ai-functions.png)
 h5ai supports extensional functions such as showing thumnails of audio and video, caching for better speed, etc. This image activates all of those functions.
+
+### PHP 8 JIT enabled
+
+![jit enabled](docs/docker-h5ai-php-jit.png)
+JIT compiler that is introduced in PHP 8 is enabled by default.
 
 ### Supports multiple architectures
 
