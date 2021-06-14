@@ -6,6 +6,8 @@ msg() {
 
 # Display environment variables
 echo -e "Variables:
+\\t- PUID=${PUID}
+\\t- PGID=${PGID}
 \\t- TZ=${TZ}
 \\t- HTPASSWD=${HTPASSWD}
 \\t- HTPASSWD_USER=${HTPASSWD_USER}
@@ -18,6 +20,11 @@ fi
 
 msg "Make config directories..."
 mkdir -p /config/{nginx,h5ai}
+
+msg "Add dummy user for better handle permission..."
+useradd -u 911 -U -d /config -s /bin/false abc && usermod -G users abc
+groupmod -o -g "$PGID" abc
+usermod -o -u "$PUID" abc
 
 # Locations of configuration files
 orig_nginx="/etc/nginx/conf.d/h5ai.conf"
@@ -64,9 +71,6 @@ fi
 rm -rf $orig_h5ai
 ln -s $conf_h5ai $orig_h5ai
 
-msg "Set ownership to make Nginx can read h5ai files..."
-chown -R nginx:nogroup $conf_h5ai
-
 msg "Set permission for caching..."
 chmod -R 777 $conf_h5ai/public/cache
 chmod -R 777 $conf_h5ai/private/cache
@@ -99,6 +103,14 @@ else
         patch -R -p1 /config/nginx/h5ai.conf -i /h5ai.conf.htpasswd.patch
     fi
 fi
+
+msg "Fix ownership for Nginx and php-fpm..."
+sed -i "s#user  nginx;.*#user  abc;#g" /etc/nginx/nginx.conf
+sed -i "s#user = nobody.*#user = abc#g" /etc/php8/php-fpm.d/www.conf
+sed -i "s#group = nobody.*#group = abc#g" /etc/php8/php-fpm.d/www.conf
+
+msg "Set ownership to the configuration files..."
+chown -R abc:abc /config
 
 msg "Start supervisord..."
 supervisord -c /etc/supervisor/conf.d/supervisord.conf

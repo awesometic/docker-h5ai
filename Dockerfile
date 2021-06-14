@@ -4,12 +4,14 @@ LABEL maintainer="Deokgyu Yang <secugyu@gmail.com>" \
 
 RUN apk update
 RUN apk add --no-cache \
-    bash bash-completion supervisor tzdata \
+    bash bash-completion supervisor tzdata shadow \
     php8 php8-fpm php8-session php8-json php8-xml php8-mbstring php8-exif \
     php8-intl php8-gd php8-pecl-imagick php8-zip php8-opcache \
     ffmpeg imagemagick zip apache2-utils patch
 
 # Environments
+ENV PUID=911
+ENV PGID=911
 ENV TZ='Asia/Seoul'
 ENV HTPASSWD='false'
 ENV HTPASSWD_USER='guest'
