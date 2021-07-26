@@ -25,9 +25,9 @@ And I do choose Nginx-Alpine to get the benefits from some tweaks of Nginx versi
 
 So this is composed of,
 
-* Alpine Linux 3.13
-* Nginx 1.21.0
-* PHP 8.0.6
+* Alpine Linux 3.14
+* Nginx 1.21.1
+* PHP 8.0.8
 
 with,
 
