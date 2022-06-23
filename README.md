@@ -27,7 +27,7 @@ So this is composed of,
 
 * Alpine Linux 3.16
 * Nginx 1.22.0
-* PHP 8.0.19
+* PHP 8.0.20
 
 with,
 
