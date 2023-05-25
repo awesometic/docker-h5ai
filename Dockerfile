@@ -1,12 +1,12 @@
-FROM nginx:1.23.2-alpine
+FROM nginx:1.25-alpine3.17
 LABEL maintainer="Deokgyu Yang <secugyu@gmail.com>" \
-      description="Lightweight h5ai 0.30.0 container with Nginx 1.23 & PHP 8 based on Alpine Linux."
+      description="Lightweight h5ai 0.30.0 container with Nginx 1.25 & PHP 8.1 based on Alpine Linux."
 
 RUN apk update
 RUN apk add --no-cache \
     bash bash-completion supervisor tzdata shadow \
-    php8 php8-fpm php8-session php8-json php8-xml php8-mbstring php8-exif \
-    php8-intl php8-gd php8-pecl-imagick php8-zip php8-opcache \
+    php81 php81-fpm php81-session php81-json php81-xml php81-mbstring php81-exif \
+    php81-intl php81-gd php81-pecl-imagick php81-zip php81-opcache \
     ffmpeg imagemagick zip apache2-utils patch
 
 # Environments
@@ -19,8 +19,8 @@ ENV HTPASSWD_PW=''
 
 # Copy configuration files
 COPY config/h5ai.conf /etc/nginx/conf.d/h5ai.conf
-COPY config/php_set_timezone.ini /etc/php8/conf.d/00_timezone.ini
-COPY config/php_set_jit.ini /etc/php8/conf.d/00_jit.ini
+COPY config/php_set_timezone.ini /etc/php81/conf.d/00_timezone.ini
+COPY config/php_set_jit.ini /etc/php81/conf.d/00_jit.ini
 COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Copy h5ai

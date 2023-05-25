@@ -13,9 +13,9 @@ echo -e "Variables:
 \\t- HTPASSWD_USER=${HTPASSWD_USER}
 \\t- HTPASSWD_PW=${HTPASSWD_PW}"
 
-if [ "$( grep -rni "$TZ" /etc/php8/conf.d/00_timezone.ini | wc -l )" -eq 0 ]; then
+if [ "$( grep -rni "$TZ" /etc/php81/conf.d/00_timezone.ini | wc -l )" -eq 0 ]; then
     msg "Configure timezone for PHP..."
-    echo "$TZ\"" >> /etc/php8/conf.d/00_timezone.ini
+    echo "$TZ\"" >> /etc/php81/conf.d/00_timezone.ini
 fi
 
 msg "Make config directories..."
@@ -106,8 +106,8 @@ fi
 
 msg "Fix ownership for Nginx and php-fpm..."
 sed -i "s#user  nginx;.*#user  abc;#g" /etc/nginx/nginx.conf
-sed -i "s#user = nobody.*#user = abc#g" /etc/php8/php-fpm.d/www.conf
-sed -i "s#group = nobody.*#group = abc#g" /etc/php8/php-fpm.d/www.conf
+sed -i "s#user = nobody.*#user = abc#g" /etc/php81/php-fpm.d/www.conf
+sed -i "s#group = nobody.*#group = abc#g" /etc/php81/php-fpm.d/www.conf
 
 msg "Set ownership to the configuration files..."
 chown -R abc:abc /config
