@@ -1,7 +1,7 @@
 # docker-h5ai
 
 ![](https://img.shields.io/badge/multiarch-amd64(x86__64)%2C%20arm64%2C%20armv7%2C%20armv6-lightgrey?style=flat-square)
-![](https://img.shields.io/github/workflow/status/awesometic/docker-h5ai/buildx?style=flat-square)
+![](https://img.shields.io/github/actions/workflow/status/awesometic/docker-h5ai/buildx.yml?branch=master?style=flat-square)
 
 ![](https://img.shields.io/docker/image-size/awesometic/h5ai/latest?style=flat-square)
 ![](https://img.shields.io/docker/pulls/awesometic/h5ai?style=flat-square)
