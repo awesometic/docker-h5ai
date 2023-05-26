@@ -21,6 +21,7 @@ ENV HTPASSWD_PW=''
 COPY config/h5ai.conf /etc/nginx/conf.d/h5ai.conf
 COPY config/php_set_timezone.ini /etc/php81/conf.d/00_timezone.ini
 COPY config/php_set_jit.ini /etc/php81/conf.d/00_jit.ini
+COPY config/php_set_memory_limit.ini /etc/php81/conf.d/00_memlimit.ini
 COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Copy h5ai
