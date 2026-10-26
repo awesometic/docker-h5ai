@@ -3,6 +3,11 @@ on:
   push:
     branches:
       - master
+    paths-ignore:
+      - README.md
+      - docs/**
+      - tests/README.md
+      - .github/workflows/dockerhub-description.yml
   pull_request:
     branches:
       - master
@@ -89,11 +94,3 @@ jobs:
           pull: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/h5ai:latest
           push: true
-      - name: Update Docker Hub description
-        uses: peter-evans/dockerhub-description@v5
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          repository: ${{ secrets.DOCKERHUB_USERNAME }}/h5ai
-          readme-filepath: ./README.md
-          enable-url-completion: true
