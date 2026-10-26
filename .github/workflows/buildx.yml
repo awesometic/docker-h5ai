@@ -3,14 +3,17 @@ on:
   push:
     branches:
       - master
-    paths-ignore:
-      - README.md
-      - docs/**
-      - tests/README.md
-      - .github/workflows/dockerhub-description.yml
+    paths:
+      - Dockerfile
+      - config/**
   pull_request:
     branches:
       - master
+    paths:
+      - Dockerfile
+      - config/**
+      - tests/smoke.py
+      - .github/workflows/buildx.yml
 
 permissions:
   contents: read

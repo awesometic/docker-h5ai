@@ -9,7 +9,7 @@ The [GitHub Actions workflow](../.github/workflows/buildx.yml) runs this script 
 It tests amd64 and ARM64 on their native Ubuntu runners, and ARMv7/ARMv6 with QEMU on amd64.
 Every platform must pass before a `master` push can start the Docker Hub publish job.
 Pull requests do not receive Docker Hub credentials or publish images.
-On a `master` push, changes limited to `README.md`, `docs/**`, `tests/README.md`, or `.github/workflows/dockerhub-description.yml` skip container tests and image publishing.
+On a `master` push, it runs only when `Dockerfile` or `config/**` changes; pull requests also run when `tests/smoke.py` or the workflow itself changes.
 
 The publish job builds the four-platform image from the tested source revision; it does not promote the exact image digests loaded by the test jobs.
 Use the local commands below for focused feedback before pushing or to diagnose a CI failure.
