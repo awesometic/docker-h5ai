@@ -177,6 +177,59 @@ http://localhost/
 ![Sample files from https://www.sample-videos.com/](docs/docker-h5ai-demo.png)
 After all, you can see the directories you shared.
 
+### Logs
+
+You can check Nginx requests and PHP errors with `docker logs h5ai`.
+To keep the log files on your host when you recreate the container, add a `/logs` mount:
+
+```bash
+docker run -d --name=h5ai \
+-p 80:80 \
+-v /shared/dir:/h5ai \
+-v /config/dir:/config \
+-v /log/dir:/logs \
+-e PUID=$UID \
+-e PGID=$GID \
+-e TZ=Asia/Seoul \
+-e LOG_ROTATE_INTERVAL_DAYS=1 \
+-e LOG_RETENTION_DAYS=30 \
+awesometic/h5ai
+```
+
+The log mount and the `LOG_*` variables are optional, so your existing Docker commands keep working.
+Without the mount, log files stay inside the container and are lost when you remove it.
+
+You can find the files in these directories:
+
+* `/logs/nginx/access.log`: Requests to your website.
+* `/logs/nginx/error.log`: Nginx errors and service messages.
+* `/logs/php/error.log`: PHP errors and PHP-FPM service messages.
+
+By default, logs rotate every day in the timezone set by `TZ`, and archives are kept for 30 days.
+The first rotation is due after the next local midnight.
+The container checks for rotation and expired archives every minute, even when nobody visits your website.
+Older archives are compressed after the following rotation.
+
+You can adjust this with environment variables:
+
+* `LOG_ROTATE_INTERVAL_DAYS`: Days between rotations. The default is `1`.
+* `LOG_RETENTION_DAYS`: Days to keep an archive after rotation. The default is `30`, measured in periods of 24 hours.
+* `LOG_READ_GID`: The numeric host group allowed to read logs. The default is your `PGID`.
+
+Both day values must be whole numbers between 1 and 36500, and retention must be at least the rotation interval.
+Keep `/logs/.state` with the log files so the rotation schedule survives container recreation too.
+
+Files belong to root, and the reader group can read them without changing or removing them.
+Directories use `0750` permissions and files use `0640`; host root can still manage them.
+Add your host user to the reader group if needed.
+Mount `/logs` read/write so the container can record and rotate logs.
+Use a dedicated directory for each container and let the container handle rotation instead of running a second host rotation job on those files.
+
+Docker's logging driver controls its own retention separately.
+Restarting the container or its log forwarding can replay current records in `docker logs`; the files under `/logs` are the retained copies.
+There is no hard size limit on an active file, so allow enough disk space for your traffic.
+Custom Nginx logging settings are preserved, but destinations outside stdout/stderr are not included in these managed logs.
+
 ## Caution when update
 
 **If the new h5ai version releases**, I overwrite all the updated files to the corresponded directories on the project folder. In this sequence, some customized files by you will be replaced into the new one.
@@ -211,7 +264,7 @@ In this image, it is not provide any HTTPS related settings but you can set HTTP
 * [x] Easy access to options.json
 * [x] Access permission using htpasswd
 * [x] Setup PUID/PGID to better handle the permissions
-* [ ] Expose Nginx, PHP log files to the host
+* [x] Expose Nginx, PHP log files to the host
 
 ## License
 
