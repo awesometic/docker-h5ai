@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+: "${TZ:=Asia/Seoul}"
+export TZ
+
 msg() {
     echo -E "$1"
 }
@@ -10,8 +13,12 @@ echo -e "Variables:
 \\t- PGID=${PGID}
 \\t- TZ=${TZ}
 \\t- HTPASSWD=${HTPASSWD}
-\\t- HTPASSWD_USER=${HTPASSWD_USER}
-\\t- HTPASSWD_PW=${HTPASSWD_PW}"
+\\t- HTPASSWD_USER=${HTPASSWD_USER}"
+
+msg "Prepare service logs..."
+h5ai-logs prepare || exit $?
+
+sed -i 's#^;error_log = log/php85/error.log#error_log = /proc/self/fd/2#' /etc/php85/php-fpm.conf
 
 msg "Configure timezone for PHP..."
 printf '[Date]\ndate.timezone="%s"\n' "$TZ" > /etc/php85/conf.d/00_timezone.ini
@@ -110,5 +117,9 @@ sed -i "s#group = nobody.*#group = abc#g" /etc/php85/php-fpm.d/www.conf
 msg "Set ownership to the configuration files..."
 chown -R abc:abc /config
 
+sed -i '/^\[www\]$/a catch_workers_output = yes' /etc/php85/php-fpm.d/www.conf
+sed -i '/^\[www\]$/a php_admin_value[error_log] = /proc/self/fd/2' /etc/php85/php-fpm.d/www.conf
+sed -i '/^\[www\]$/a php_admin_flag[log_errors] = on' /etc/php85/php-fpm.d/www.conf
+
 msg "Start supervisord..."
-supervisord -c /etc/supervisor/conf.d/supervisord.conf
+exec supervisord -c /etc/supervisor/conf.d/supervisord.conf

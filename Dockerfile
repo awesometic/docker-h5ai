@@ -3,7 +3,7 @@ LABEL maintainer="Deokgyu Yang <secugyu@gmail.com>" \
       description="Lightweight h5ai 0.30.0 container with Nginx 1.30.6 & PHP 8.5.12+ based on Alpine Linux 3.24."
 
 RUN apk add --no-cache \
-    bash bash-completion supervisor tzdata shadow \
+    bash bash-completion supervisor tzdata shadow logrotate \
     'php85>=8.5.12' php85-fpm php85-session php85-json php85-xml php85-mbstring php85-exif \
     php85-intl php85-gd php85-pecl-imagick php85-zip \
     ffmpeg imagemagick zip apache2-utils patch
@@ -22,6 +22,7 @@ COPY config/php_set_timezone.ini /etc/php85/conf.d/00_timezone.ini
 COPY config/php_set_jit.ini /etc/php85/conf.d/00_jit.ini
 COPY config/php_set_memory_limit.ini /etc/php85/conf.d/00_memlimit.ini
 COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY --chmod=0755 config/logs.sh /usr/local/bin/h5ai-logs
 
 # Copy h5ai
 COPY config/_h5ai /usr/share/h5ai/_h5ai
