@@ -28,10 +28,15 @@ A successful build alone is not evidence that the service works.
 | Authentication and sessions | Anonymous requests receive 401; credentials allow access; admin login persists into the next request | Missing Basic Auth or broken PHP session persistence |
 | Configuration reuse | Customized options keep their hash after recreation; ownership matches PUID/PGID; FPM reads the new timezone | Overwritten settings, incorrect file ownership, or stale timezone configuration |
 | Authentication removal | Recreating the container with authentication off restores anonymous downloads | A stale authentication patch in the persisted Nginx configuration |
+| Persistent service logs | Real Nginx requests/errors and PHP errors reach files and Docker output; records survive recreation | Missing stream capture, broken forwarding, or lost mounted logs |
+| Host reader permissions | A user sharing the service UID/GID can read logs but cannot append, create or delete them | Worker-owned logs or writable log directories |
+| Rotation and expiry | Maintenance moves records to dated archives, preserves compressed content, resumes writes after a stopped Supervisor recovers, and expires only managed old archives | Stale writers, lost archives, unsafe or traffic-dependent cleanup |
 
 The HTTP and process boundaries are intentional: mocks cannot detect a missing package or a service that fails to start.
 The script uses Python's standard library and the image's existing PHP/GD and FFmpeg tools, with no separate test framework.
-The PHP probe and media fixtures exist only in disposable test volumes; they are not shipped in the image.
+The PHP probe, media fixtures and log archives exist only in disposable test volumes; they are not shipped in the image.
+Logging checks seed dates only in the disposable volume and stop Supervisor with a host-side Docker signal, asserting the stopped state before testing recovery.
+The test never changes the host clock or waits for a real retention period.
 
 ## Run
 
