@@ -7,6 +7,26 @@
 ![](https://img.shields.io/docker/pulls/awesometic/h5ai?style=flat-square)
 ![](https://img.shields.io/docker/stars/awesometic/h5ai?style=flat-square)
 
+## This image continues as h5ai-ng
+
+h5ai stopped releasing in 2021, so I forked it as [h5ai-ng](https://github.com/awesometic/h5ai-ng).
+I now maintain h5ai and its Docker image together in that repository, and new images are published as [`awesometic/h5ai-ng`](https://hub.docker.com/r/awesometic/h5ai-ng).
+Further updates happen there.
+
+The image works as soon as it starts.
+Image, video and PDF thumbnails, tar and zip downloads and folder sizes need no extra setup.
+
+```bash
+docker run -d --name h5ai -p 80:80 \
+  -v /path/to/files:/h5ai \
+  -v /path/to/config:/config \
+  --restart unless-stopped \
+  awesometic/h5ai-ng
+```
+
+Already using this image? Keep your volumes and variables and change only the image name.
+[Moving from docker-h5ai](https://github.com/awesometic/h5ai-ng#moving-from-docker-h5ai) covers the backup and what the first start changes.
+
 ## What is h5ai
 
 I'd like to quote the [official website](https://larsjung.de/h5ai/).
