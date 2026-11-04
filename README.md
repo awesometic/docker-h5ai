@@ -7,25 +7,26 @@
 ![](https://img.shields.io/docker/pulls/awesometic/h5ai?style=flat-square)
 ![](https://img.shields.io/docker/stars/awesometic/h5ai?style=flat-square)
 
-## This image continues as h5ai-ng
+> ⚠️ Deprecated: moved to h5ai-ng
+
+## Deprecated
+
+This image no longer gets updates, including security fixes.
+Please move to [`awesometic/h5ai-ng`](https://hub.docker.com/r/awesometic/h5ai-ng), where new images are published.
+This image stays on Docker Hub and the GitHub repository stays readable, so your current setup keeps working until you move.
 
 h5ai stopped releasing in 2021, so I forked it as [h5ai-ng](https://github.com/awesometic/h5ai-ng).
-I now maintain h5ai and its Docker image together in that repository, and new images are published as [`awesometic/h5ai-ng`](https://hub.docker.com/r/awesometic/h5ai-ng).
-Further updates happen there.
+I now maintain h5ai and its Docker image together in that repository.
 
-The image works as soon as it starts.
-Image, video and PDF thumbnails, tar and zip downloads and folder sizes need no extra setup.
+To move, change the image to `awesometic/h5ai-ng` in your `docker run` command or Compose file.
+With `docker run`, remove the old container first.
+Your volumes and variables keep working.
+Back up the folder you mount at `/config` first; [Moving from docker-h5ai](https://github.com/awesometic/h5ai-ng#moving-from-docker-h5ai) covers the backup and what the first start changes.
 
-```bash
-docker run -d --name h5ai -p 80:80 \
-  -v /path/to/files:/h5ai \
-  -v /path/to/config:/config \
-  --restart unless-stopped \
-  awesometic/h5ai-ng
-```
+For a new install, see the [h5ai-ng README](https://github.com/awesometic/h5ai-ng).
+Report problems in [h5ai-ng issues](https://github.com/awesometic/h5ai-ng/issues).
 
-Already using this image? Keep your volumes and variables and change only the image name.
-[Moving from docker-h5ai](https://github.com/awesometic/h5ai-ng#moving-from-docker-h5ai) covers the backup and what the first start changes.
+---
 
 ## What is h5ai
 
